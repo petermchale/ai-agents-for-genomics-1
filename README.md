@@ -8,3 +8,10 @@ source .venv/bin/activate
 pip install openai colorama rich
 export OPENAI_API_KEY=XXX
 ```
+
+## Chapter 1 
+
+```
+python llms_are_stateless.py
+python repl.py
+```
