@@ -2,6 +2,20 @@ import re
 from rich.markdown import Markdown
 from rich.syntax import Syntax
 
+def call_llm(messages, client, tool_schemas=None): 
+    """Call LLM with optional tool support"""
+    params = {
+        "model": "gpt-4",
+        "messages": messages
+    }
+    
+    if tool_schemas:
+        params["tools"] = tool_schemas
+        params["tool_choice"] = "auto"
+    
+    response = client.chat.completions.create(**params)
+    return response.choices[0].message
+
 def render_response(text, console):
     """Render response with syntax highlighting for code blocks"""
     # Pattern to match code blocks with optional language specification
