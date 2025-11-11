@@ -13,7 +13,7 @@ export OPENAI_API_KEY=XXX
 
 ## Chapter 1 
 
-```
-python llms_are_stateless.py
-python repl.py
-```
+1. llms_are_stateless.py
+2. repl.py
+3. one_tool.py 
+4. two_tools.py
