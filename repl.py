@@ -39,7 +39,18 @@ def render_response(text):
             )
             console.print(syntax)
 
-def main(): 
+def print_messages(messages): 
+    console.print("[dim]Accumulated messages:[/dim]")
+    import json
+    context_dicts = []
+    for message in messages:
+        if hasattr(message, 'model_dump'):
+            context_dicts.append(message.model_dump())
+        else:
+            context_dicts.append(message)
+    print(json.dumps(context_dicts, indent=2))
+
+def main(show_messages): 
     # Initialize client
     client = OpenAI()
     
@@ -81,6 +92,10 @@ def main():
             
             # Add assistant response to context
             messages.append({"role": "assistant", "content": response})
+
+            if show_messages: 
+                print_messages(messages)
+            
         except Exception as e:
             console.print(f"[bold red]Error:[/bold red] {e}")
             messages.pop()
@@ -88,4 +103,4 @@ def main():
         console.print()
 
 if __name__ == '__main__': 
-    main()
+    main(show_messages=False)
