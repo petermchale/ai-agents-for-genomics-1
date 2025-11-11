@@ -5,9 +5,6 @@ from rich.syntax import Syntax
 from rich.panel import Panel
 import re
 
-# Initialize Rich console
-console = Console()
-
 def call_llm(messages, client): 
     response = client.chat.completions.create(
         model="gpt-4",
@@ -15,7 +12,7 @@ def call_llm(messages, client):
     )
     return response.choices[0].message.content
 
-def render_response(text):
+def render_response(text, console):
     """Render response with syntax highlighting for code blocks"""
     # Pattern to match code blocks with optional language specification
     code_block_pattern = r'```(\w+)?\n(.*?)```'
@@ -39,7 +36,7 @@ def render_response(text):
             )
             console.print(syntax)
 
-def print_messages(messages): 
+def print_messages(messages, console): 
     console.print("[dim]Accumulated messages:[/dim]")
     import json
     context_dicts = []
@@ -51,6 +48,9 @@ def print_messages(messages):
     print(json.dumps(context_dicts, indent=2))
 
 def main(show_messages): 
+    # Initialize Rich console
+    console = Console()
+
     # Initialize client
     client = OpenAI()
     
@@ -88,13 +88,13 @@ def main(show_messages):
             
             # Assistant prompt and response
             console.print("[dim]Assistant ➜[/dim] ", end='')
-            render_response(response)
+            render_response(response, console)
             
             # Add assistant response to context
             messages.append({"role": "assistant", "content": response})
 
             if show_messages: 
-                print_messages(messages)
+                print_messages(messages, console)
             
         except Exception as e:
             console.print(f"[bold red]Error:[/bold red] {e}")
