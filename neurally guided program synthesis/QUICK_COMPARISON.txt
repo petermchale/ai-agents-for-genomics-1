@@ -1,0 +1,102 @@
+═══════════════════════════════════════════════════════════════
+         HARDCODED vs ADAPTIVE: The Key Difference
+═══════════════════════════════════════════════════════════════
+
+❌ HARDCODED WORKFLOW (not interesting)
+─────────────────────────────────────────────────────────────
+
+Query: "Check these 3 genes: SCN1A, KCNQ2, GABRA1"
+
+Code:
+    genes = ["SCN1A", "KCNQ2", "GABRA1"]  # ← YOU decide
+    for gene in genes:
+        check_variant(gene)
+
+Agent tools calls:
+    1. check_variant(SCN1A)
+    2. check_variant(KCNQ2)
+    3. check_variant(GABRA1)
+
+Why boring: You could just write the loop yourself.
+
+
+✅ ADAPTIVE EXPLORATION (interesting!)
+─────────────────────────────────────────────────────────────
+
+Query: "Patient has epilepsy. Find the genetic cause."
+
+Code:
+    process("Patient has epilepsy. Find the genetic cause.")
+    # That's it. Agent decides everything below.
+
+Agent tool calls:
+    1. search_disease_genes("epilepsy")
+       └─> Returns: ["SCN1A", "KCNQ2", "GABRA1"]
+    
+    2. check_variant("SCN1A")      # ← Agent decides from search
+       └─> Returns: chr2:166245425:T:C (rare, missense)
+    
+    3. check_variant("KCNQ2")      # ← Agent checks this too
+       └─> Returns: none found
+    
+    4. check_variant("GABRA1")     # ← And this
+       └─> Returns: none found
+
+    5. get_gene_pathways("SCN1A")  # ← Digs deeper on the hit
+       └─> Returns: sodium channel, neuronal excitability
+
+Why interesting: 
+    - Gene list comes from search (not hardcoded)
+    - Number of checks depends on search results
+    - Agent digs deeper on findings
+    - Stops when it has answer
+    - YOU CANNOT WRITE THIS AS A FIXED LOOP
+
+
+═══════════════════════════════════════════════════════════════
+                        THE KEY QUESTION
+═══════════════════════════════════════════════════════════════
+
+"Can you write this as a for loop?"
+
+NO  → Use an agent (adaptive exploration)
+YES → Don't use an agent (just write the code)
+
+
+═══════════════════════════════════════════════════════════════
+                          EXAMPLES
+═══════════════════════════════════════════════════════════════
+
+CAN hardcode (don't use agent):
+    ✗ "Check variants in SCN1A"
+    ✗ "Filter QUAL > 30"
+    ✗ "Annotate these 5 variants"
+
+CAN'T hardcode (use agent):
+    ✓ "Patient has epilepsy. Why?"
+    ✓ "What's interesting in this exome?"
+    ✓ "Debug: Why is coverage low here?"
+    ✓ "Find variants explaining this phenotype"
+
+
+═══════════════════════════════════════════════════════════════
+                      TRY IT YOURSELF
+═══════════════════════════════════════════════════════════════
+
+$ python minimal_agent.py
+
+> Patient has epilepsy. Find the genetic cause.
+
+call 1: search_disease_genes({"disease": "epilepsy"})
+call 2: check_variant({"gene": "SCN1A"})
+call 3: check_variant({"gene": "KCNQ2"})
+call 4: check_variant({"gene": "GABRA1"})
+
+>>> Found SCN1A variant: chr2:166245425:T:C (Dravet syndrome)
+
+Notice: You didn't write code to decide which genes to check.
+        The agent discovered them from the search results.
+        That's adaptive exploration.
+
+
+═══════════════════════════════════════════════════════════════
