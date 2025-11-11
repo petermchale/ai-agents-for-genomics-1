@@ -1,12 +1,10 @@
-# ai-agents-for-genomics-1
+# ai-agents-for-genomics
 
 ## Installation 
 
 ```
 python3 -m venv .venv
 source .venv/bin/activate
-pip install openai
+pip install openai colorama rich
 export OPENAI_API_KEY=XXX
-pip install colorama
-pip install rich
 ```
