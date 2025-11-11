@@ -1,6 +1,7 @@
 import re
 from rich.markdown import Markdown
 from rich.syntax import Syntax
+import json 
 
 def call_llm(messages, client, tool_schemas=None): 
     """Call LLM with optional tool support"""
@@ -50,4 +51,24 @@ def print_messages(messages, console):
         else:
             context_dicts.append(message)
     print(json.dumps(context_dicts, indent=2))
+
+def execute_tool_call(tool_call, tool_functions):
+    """
+    Execute the requested tool call using the provided tool functions dictionary.
+    
+    Args:
+        tool_call: The tool call object from the LLM response
+        tool_functions: Dictionary mapping function names to function objects
+    
+    Returns:
+        Dictionary containing the result of the tool call
+    """
+    function_name = tool_call.function.name
+    arguments = json.loads(tool_call.function.arguments)
+    
+    if function_name in tool_functions:
+        return tool_functions[function_name](**arguments)
+    else:
+        return {"error": f"Unknown function: {function_name}"}
+
 
