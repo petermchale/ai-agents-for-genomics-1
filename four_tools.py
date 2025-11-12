@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 """
-Genomics Agent with OpenAI API
+Genomics Agent 
 Demonstrates an agent choosing a path through tool calls for genetic diagnosis
-
-Usage:
-    export OPENAI_API_KEY="your-key-here"
-    python four_tools.py
 """
 
 from openai import OpenAI
@@ -20,19 +16,23 @@ from tools.check_variant import check_variant, check_variant_schema
 from tools.check_population_frequency import check_population_frequency, check_population_frequency_schema
 from tools.query_clinvar import query_clinvar, query_clinvar_schema
 
-def main(show_messages):
-    # Check for API key
-    if not os.getenv("OPENAI_API_KEY"):
-        print("ERROR: Please set OPENAI_API_KEY environment variable")
-        print("Example: export OPENAI_API_KEY='sk-...'")
-        exit(1)
-    
+def main(show_messages, model):
     # Initialize Rich console
     console = Console()
     
-    # Initialize client
-    client = OpenAI()
-    
+
+    if model == "qwen3:8b": 
+        # Initialize client for Ollama (OpenAI-compatible endpoint)
+        # Ollama runs on localhost:11434 by default
+        client = OpenAI(
+            base_url="http://localhost:11434/v1",
+            api_key="ollama"  # Ollama doesn't need a real API key
+        )
+    elif model == "gpt-4": 
+        client = OpenAI()
+    else: 
+        raise ValueError(f"Unsupported model {model}")
+
     # Initialize context (message history)
     messages = []
     
@@ -55,6 +55,7 @@ def main(show_messages):
     # Welcome message
     console.print(Panel.fit(
         "[cyan bold]Genomics Agent - Genetic Diagnosis Assistant[/cyan bold]\n"
+        f"[dim]Running {model}[/dim]\n"
         "[dim]Type 'quit' or 'exit' to end[/dim]\n"
         "[yellow]Try: 'Patient has epilepsy. Find the genetic cause.'[/yellow]\n"
         "[yellow]Or: 'Analyze variant chr2:166245425:T:C for clinical significance'[/yellow]",
@@ -84,7 +85,7 @@ def main(show_messages):
             
             # Show spinner while waiting for initial response
             with console.status("[bold green]Thinking...", spinner="dots"):
-                response_message = call_llm(messages, client, tool_schemas)
+                response_message = call_llm(messages, client, tool_schemas, model)
             
             # Handle tool calls in a loop until we get a final response
             while response_message.tool_calls:
@@ -118,7 +119,7 @@ def main(show_messages):
                 
                 # Get the next response from the model
                 with console.status("[bold green]Processing...", spinner="dots"):
-                    response_message = call_llm(messages, client, tool_schemas)
+                    response_message = call_llm(messages, client, tool_schemas, model)
             
             # We've exited the loop, so response_message contains the final text response
             console.print("[dim]Assistant ➜[/dim] ", end='')
@@ -142,11 +143,16 @@ def main(show_messages):
         
         console.print()
 
-
-if __name__ == '__main__':
+def main_wrapper():
     import sys
     
     # Check if --show-messages flag is provided
     show_messages = '--show-messages' in sys.argv
+
+    # Check if --local flag is provided
+    model = "qwen3:8b" if '--local' in sys.argv else "gpt-4"
     
-    main(show_messages=show_messages)
+    main(show_messages, model)
+
+if __name__ == '__main__':
+    main_wrapper()
