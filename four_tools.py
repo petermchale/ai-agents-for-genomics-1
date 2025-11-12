@@ -8,7 +8,7 @@ from openai import OpenAI
 from rich.console import Console
 from rich.panel import Panel
 import json
-import os
+import time
 
 from util import call_llm, render_response, print_messages, execute_tool_call
 from tools.search_disease_genes import search_disease_genes, search_disease_genes_schema
@@ -76,6 +76,9 @@ def main(show_messages, model):
         if not user_input.strip():
             continue
         
+        # Start timing
+        start_time = time.time()
+        
         # Add user message to context
         messages.append({"role": "user", "content": user_input})
         
@@ -118,7 +121,8 @@ def main(show_messages, model):
                     })
                 
                 # Get the next response from the model
-                with console.status("[bold green]Processing...", spinner="dots"):
+                elapsed = time.time() - start_time
+                with console.status(f"[bold green]Processing... ({elapsed:.1f}s elapsed)", spinner="dots"):
                     response_message = call_llm(messages, client, tool_schemas, model)
             
             # We've exited the loop, so response_message contains the final text response
@@ -128,9 +132,13 @@ def main(show_messages, model):
             # Add final response to context
             messages.append(response_message)
             
+            # Calculate and show total elapsed time
+            total_time = time.time() - start_time
+            console.print(f"[blue italic]Total processing time: {total_time:.2f}s[/blue italic]")
+            
             # Show summary
             if tool_call_count > 0:
-                console.print(f"\n[yellow italic]({tool_call_count} tool call(s) executed)[/yellow italic]")
+                console.print(f"[yellow italic]({tool_call_count} tool call(s) executed)[/yellow italic]")
             
             if show_messages:
                 print_messages(messages, console)
