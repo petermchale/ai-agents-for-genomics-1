@@ -3,10 +3,10 @@ from rich.markdown import Markdown
 from rich.syntax import Syntax
 import json 
 
-def call_llm(messages, client, tool_schemas=None): 
+def call_llm(messages, client, tool_schemas=None, model="gpt-4"): 
     """Call LLM with optional tool support"""
     params = {
-        "model": "gpt-4",
+        "model": model,
         "messages": messages
     }
     
