@@ -2,6 +2,10 @@
 
 Inspired by https://fly.io/blog/everyone-write-an-agent/ 
 
+## Slides 
+
+https://docs.google.com/presentation/d/1NetuiK9HCjfAA4B-EsnQg75FCkjn6oGchTKw81IaxGw/edit?usp=sharing
+
 ## Installation 
 
 Python dependencies:
@@ -27,9 +31,9 @@ ollama serve
 
 ## Chapter 1 
 
-1. llms_are_stateless.py
-2. repl.py
-3. one_tool.py 
-4. two_tools.py
-5. four_tools.py
-6. four_tools.py with local LLM
+1. Accumulating messages to give the illusion of state (llms_are_stateless.py) 
+2. Chatbots are based on the Read-Eval-Print Loop (repl.py)
+3. A genomics assistant that can translate DNA sequences to proteins (one_tool.py)
+4. The LLM, not the user, orchestrates the correct sequence of function calling (two_tools.py)
+5. Neurally guided program synthesis (four_tools.py)
+6. Local LLM deployment for practical genomics applications is becoming a reality (four_tools.py --local) 
