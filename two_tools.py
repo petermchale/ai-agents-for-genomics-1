@@ -101,4 +101,4 @@ def main(show_messages):
         console.print()
 
 if __name__ == '__main__': 
-    main(show_messages=False)
+    main(show_messages=True)
