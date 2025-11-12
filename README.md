@@ -1,6 +1,8 @@
 # ai-agents-for-genomics
 
-Inspired by https://fly.io/blog/everyone-write-an-agent/ 
+## Inspiration 
+
+https://fly.io/blog/everyone-write-an-agent/ 
 
 ## Slides 
 
