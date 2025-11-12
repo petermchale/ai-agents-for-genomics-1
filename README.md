@@ -32,3 +32,4 @@ ollama serve
 3. one_tool.py 
 4. two_tools.py
 5. four_tools.py
+6. four_tools.py with local LLM
