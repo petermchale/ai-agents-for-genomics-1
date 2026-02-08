@@ -5,10 +5,10 @@
 #SBATCH --partition=rai-gpu-rw
 #SBATCH --time=1:00:00
 #SBATCH --gres=gpu:h200:1
-#SBATCH --cpus-per-task=16       # 16 CPUs for snappy model loading and prompt processing
+#SBATCH --cpus-per-task=16       # Multiple CPUs for snappy model loading and prompt processing
 #SBATCH --mem=128G               # System RAM (separate from GPU VRAM)
 #SBATCH --nodelist=rw236
-#SBATCH --output=/uufs/chpc.utah.edu/common/HIPAA/u6018199/run-qwen3-coder-next-on-h200.log
+#SBATCH --output=run-qwen3-coder-next-on-h200.log
 
 # the above config is appropriate for https://ollama.com/library/qwen3-coder-next:q8_0
 # c.f., https://gemini.google.com/share/90c73e1c3bb9
