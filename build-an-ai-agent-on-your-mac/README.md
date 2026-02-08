@@ -1,4 +1,4 @@
-# ai-agents-for-genomics
+# Build an AI agent on your mac
 
 ## Inspiration 
 
@@ -22,7 +22,7 @@ OpenAI API key configuration:
 export OPENAI_API_KEY=XXX
 ```
 
-Install `ollama` to download and serve open-source LLMs locally: 
+Install `ollama` to download and serve open-source LLMs on your mac: 
 ```
 curl -fsSL https://ollama.com/install.sh | sh
 PATH=$PATH:$HOME/.local/bin
@@ -31,7 +31,7 @@ ollama pull qwen3:8b
 ollama serve
 ```
 
-## Chapter 1 
+## Lessons
 
 1. Accumulating messages to give the illusion of state (`llms_are_stateless.py`) 
 2. Chatbots are based on the Read-Eval-Print Loop (`repl.py`)
