@@ -63,13 +63,3 @@ export PATH="$HOME/node_modules/.bin:$PATH"
 }
 ```
 5. Run the agent by typing `pi` at the command line 
-
-## Other coding agents: 
-
-  kilocode
-  letta-code
-  amp
-  droid
-  try google search "coding agents for jupyter notebooks" 
-  cline
-  qwen-code cli https://github.com/QwenLM/qwen-code
