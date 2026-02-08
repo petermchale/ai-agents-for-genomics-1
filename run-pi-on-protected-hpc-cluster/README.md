@@ -10,7 +10,7 @@
 ```
 sbatch run-qwen3-coder-next-on-h200.sh
 ``` 
-3. Once the ollama server is running, one may download `qwen3-coder-next:q8_0` as follows:
+3. Confirm the ollama server is running by inspecting its logs (`run-qwen3-coder-next-on-h200.log`), and then download `qwen3-coder-next:q8_0` as follows:
 ```
 salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
 module load ollama 
