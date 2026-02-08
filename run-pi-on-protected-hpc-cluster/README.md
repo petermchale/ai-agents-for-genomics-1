@@ -2,18 +2,22 @@
 
 ## Run a 80B-parameter open-source coding LLM on a H200 GPU 
 
-1. Run `ollama` on the H200 with enough resources to accommodate `qwen3-coder-next`: 
+1. Determine whether GPUs are available on compute node `rw236` (say) by issuing `scontrol show node rw236` and looking for: 
+* CfgTRES: The total resources configured on the node (e.g., gres/gpu=4).
+* AllocTRES: The resources currently allocated to running jobs. If you see gres/gpu=2, it means 2 GPUs are taken and the rest are free.
+* GresUsed: This often lists the specific indices (e.g., gpu:2(IDX:0-1)) so you know exactly which physical cards are busy.
+2. If a GPU is free, run `ollama` on the H200 with enough resources to accommodate `qwen3-coder-next`: 
 ```
 sbatch run-qwen3-coder-next-on-h200.sh
 ``` 
-2. Once the ollama server is running, one may download `qwen3-coder-next:q8_0` as follows:
+3. Once the ollama server is running, one may download `qwen3-coder-next:q8_0` as follows:
 ```
 salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
 module load ollama 
 export OLLAMA_MODELS="/scratch/ucgd/lustre-labs/quinlan/data-shared/ollama-models" 
 ollama pull qwen3-coder-next:q8_0 
 ```
-3. To have ollama serve clients (like the Pi coding agent) running on another machine, hunnicutt (say), one needs to run: 
+4. To have ollama serve clients (like the Pi coding agent) running on another machine, hunnicutt (say), one needs to run: 
 ```
 salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
 ```     
@@ -27,7 +31,7 @@ pgrep -f "ssh.*11434" | xargs kill
 ```
 or simply logout. 
 
-4. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
+5. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
 
 ## Install, configure, and run Pi coding agent 
 
