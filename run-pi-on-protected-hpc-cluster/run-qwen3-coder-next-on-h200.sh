@@ -9,6 +9,8 @@
 #SBATCH --mem=128G               # System RAM (separate from GPU VRAM)
 #SBATCH --nodelist=rw236
 #SBATCH --output=run-qwen3-coder-next-on-h200.log
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=peterm@genetics.utah.edu
 
 # the above config is appropriate for https://ollama.com/library/qwen3-coder-next:q8_0
 # c.f., https://gemini.google.com/share/90c73e1c3bb9
