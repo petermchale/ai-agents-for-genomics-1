@@ -29,6 +29,14 @@ to drop into the machine running the LLM, and then do a reverse ssh tunnel to th
 ```
 ssh -f -N -R 11434:localhost:11434 hunnicutt
 ```
+Check that the connection was successful by running: 
+```
+echo $(curl localhost:11434 2> /dev/null)
+```
+which should give: 
+```
+Ollama is running
+```
 Later, one can kill the background ssh process: 
 ```
 pgrep -f "ssh.*11434" | xargs kill
