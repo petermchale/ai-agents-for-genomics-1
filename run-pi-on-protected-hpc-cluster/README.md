@@ -17,11 +17,15 @@ module load ollama
 export OLLAMA_MODELS="/scratch/ucgd/lustre-labs/quinlan/data-shared/ollama-models" 
 ollama pull qwen3-coder-next:q8_0 
 ```
-4. To have ollama serve clients (like the Pi coding agent) running on another machine, hunnicutt (say), one needs to run: 
+4. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
+
+## Connect to the LLM 
+
+1. Run: 
 ```
 salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
 ```     
-to drop into the machine running the LLM, and then do a reverse ssh tunnel: 
+to drop into the machine running the LLM, and then do a reverse ssh tunnel to the machine you are working on (`hunnicutt` in this example): 
 ```
 ssh -f -N -R 11434:localhost:11434 hunnicutt
 ```
@@ -29,9 +33,7 @@ Later, one can kill the background ssh process:
 ```
 pgrep -f "ssh.*11434" | xargs kill
 ```
-or simply logout. 
-
-5. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
+or simply logout of the machine running the LLM. 
 
 ## Install, configure, and run Pi coding agent 
 
