@@ -1,6 +1,6 @@
 # How to run the Pi coding agent on a protected HPC cluster 
 
-## Run a 80B-parameter open-source coding LLM on a H200 GPU 
+## Run a 80B-parameter open-source coding LLM on a H200 GPU (compute node)
 
 1. Determine whether GPUs are available on compute node `rw236` (say) by issuing `scontrol show node rw236` and looking for: 
 * CfgTRES: The total resources configured on the node (e.g., gres/gpu=4).
@@ -43,7 +43,7 @@ pgrep -f "ssh.*11434" | xargs kill
 ```
 or simply logout of `rw236`. 
 
-## Install, configure, and run Pi coding agent 
+## Install, configure, and run Pi coding agent on an interactive node
 
 https://buildwithpi.ai
 
