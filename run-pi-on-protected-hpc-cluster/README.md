@@ -29,7 +29,7 @@ to drop into the machine running the LLM, and then do a reverse ssh tunnel to th
 ```
 ssh -f -N -R 11434:localhost:11434 hunnicutt
 ```
-Check that the connection was successful by running: 
+Check that the connection was successful by running on `hunnicutt`: 
 ```
 echo $(curl localhost:11434 2> /dev/null)
 ```
@@ -37,11 +37,11 @@ which should give:
 ```
 Ollama is running
 ```
-Later, one can kill the background ssh process: 
+Later, one can kill the background ssh process on `rw236`: 
 ```
 pgrep -f "ssh.*11434" | xargs kill
 ```
-or simply logout of the machine running the LLM. 
+or simply logout of `rw236`. 
 
 ## Install, configure, and run Pi coding agent 
 
