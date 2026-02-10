@@ -19,7 +19,7 @@ ollama pull qwen3-coder-next:q8_0
 ```
 4. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
 
-## Connect to the LLM 
+## Connect to the LLM from an interactive node
 
 1. Run: 
 ```
