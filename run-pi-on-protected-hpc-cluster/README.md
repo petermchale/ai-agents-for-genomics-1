@@ -27,7 +27,7 @@ tmux new -s reverse_ssh_tunnel
 ```
 2. Request an allocation on the H200 node, by running: 
 ```
-salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
+salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=3-00:00:00 --nodelist=rw236
 ```     
 3. Set up a reverse ssh tunnel from the H200 node to the agent node (the interactive machine you wish to run the coding agent on; `father` in this example): 
 ```
