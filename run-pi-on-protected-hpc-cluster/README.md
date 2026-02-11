@@ -47,11 +47,12 @@ or simply logout of `rw236`.
 
 https://buildwithpi.ai
 
-1. Download Node.js (https://nodejs.org/en/download), use the defaults for Linux:
+1. Download Node.js (https://nodejs.org/en/download), using the Linux instructions, reproduced here as of Feb 10, 2026:
 ```
 # Download and install nvm:
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-# in lieu of restarting the shell
+
+# In lieu of restarting the shell
 \. "$HOME/.nvm/nvm.sh"
 
 # Download and install Node.js:
@@ -71,13 +72,12 @@ npm -v # Should print "11.8.0".
 ```
 export PATH="$HOME/node_modules/.bin:$PATH"
 ```
-4. Initialize pi at least once
+4. Open and close `pi` to establish the directory structure required for configuration (see next step)
 ```
-pi
+pi # followed by ctrl-d to shut down
 ```
-Use ctrl-d to exit
 
-4. Configure Pi to use `qwen3-coder-next:q8_0` by pasting the following into `$HOME/.pi/agent/models.json` (from: https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/models.md#full-example)
+5. Configure `pi` to use `qwen3-coder-next:q8_0` by pasting the following into `$HOME/.pi/agent/models.json` (from: https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/models.md#full-example)
 ```
 {
   "providers": {
@@ -100,4 +100,4 @@ Use ctrl-d to exit
   }
 }
 ```
-5. Run the agent by typing `pi` at the command line 
+6. Run the agent by typing `pi` at the command line. Your coding agent should now be connected to `qwen3-coder-next:q8_0`. 
