@@ -47,12 +47,36 @@ or simply logout of `rw236`.
 
 https://buildwithpi.ai
 
-1. Download Node.js (https://nodejs.org/en/download) 
-2. Install Pi, without `-g` option (https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent#quick-start) 
+1. Download Node.js (https://nodejs.org/en/download), use the defaults for Linux:
+```
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# in lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+
+# Download and install Node.js:
+nvm install 24
+
+# Verify the Node.js version:
+node -v # Should print "v24.13.1".
+
+# Verify npm version:
+npm -v # Should print "11.8.0".
+```
+3. Install Pi, without `-g` option (https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent#quick-start):
+  ```
+  npm install @mariozechner/pi-coding-agent
+  ```
 3. Add Pi CLI entry point to `PATH`:
 ```
 export PATH="$HOME/node_modules/.bin:$PATH"
 ```
+4. Initialize pi at least once
+```
+pi
+```
+Use ctrl-d to exit
+
 4. Configure Pi to use `qwen3-coder-next:q8_0` by pasting the following into `$HOME/.pi/agent/models.json` (from: https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/models.md#full-example)
 ```
 {
