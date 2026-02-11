@@ -1,6 +1,6 @@
 # How to run the Pi coding agent on a protected HPC cluster 
 
-## Run a 80B-parameter open-source coding LLM on a H200 GPU (compute node)
+## Run a 80B-parameter open-source coding LLM on a H200 GPU compute node
 
 1. Determine whether GPUs are available on compute node `rw236` (say) by issuing `scontrol show node rw236` and looking for: 
 * CfgTRES: The total resources configured on the node (e.g., gres/gpu=4).
@@ -19,17 +19,22 @@ ollama pull qwen3-coder-next:q8_0
 ```
 4. One can monitor GPU and CPU usage at https://portal.chpc.utah.edu/
 
-## Connect to the LLM from an interactive node
+## Connect the H200 node to an agent node
 
-1. Run: 
+1. Log into an interactive node and start a named `tmux` session:
+```
+tmux new -s reverse_ssh_tunnel
+```
+2. Request an allocation on the H200 node, by running: 
 ```
 salloc --nodes=1 --ntasks=1 --account=rai-gpu-rw --partition=rai-gpu-rw --time=1:00:00 --nodelist=rw236
 ```     
-to drop into the machine running the LLM, and then do a reverse ssh tunnel to the machine you are working on (`hunnicutt` in this example): 
+3. Set up a reverse ssh tunnel from the H200 node to the agent node (the interactive machine you wish to run the coding agent on; `father` in this example): 
 ```
-ssh -f -N -R 11434:localhost:11434 hunnicutt
+ssh -f -N -R 11434:localhost:11434 father
 ```
-Check that the connection was successful by running on `hunnicutt`: 
+4. To leave the ssh tunnel running, and log out of the H200 node, press `Ctrl + b`, then let go and press `d`. You are now back on the interactive node's "bare" shell. The allocation, and therefore the tunnel between the H200 node and the agent node, will stay active, even if you logout of the interactive node. 
+5. Check that the connection was successful by running, on the agent node: 
 ```
 echo $(curl localhost:11434 2> /dev/null)
 ```
@@ -37,13 +42,16 @@ which should give:
 ```
 Ollama is running
 ```
-Later, one can kill the background ssh process on `rw236`: 
+6. When you log back into the interactice node running the `tmux` session, you can jump right back into your session:
+```
+tmux attach -t reverse_ssh_tunnel
+```
+At this point, one can kill the background ssh process on the H200 node: 
 ```
 pgrep -f "ssh.*11434" | xargs kill
 ```
-or simply logout of `rw236`. 
 
-## Install, configure, and run Pi coding agent on an interactive node
+## Install, configure, and run Pi coding agent on the "agent node"
 
 https://buildwithpi.ai
 
